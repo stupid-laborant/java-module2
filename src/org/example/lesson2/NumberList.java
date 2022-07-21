@@ -38,8 +38,12 @@ public class NumberList<T extends Number> implements List<T> {
 
     public Double getDouble(int index) {
         T currentValue = array[index];
-        if (currentValue instanceof Double) return (Double)currentValue;
-        throw new ClassCastException();
+        if(currentValue instanceof Double) {
+            return (Double) currentValue;
+        } else {
+            System.out.println("class " + currentValue.getClass() + " isn't Double class");
+            return null;
+        }
     }
 
     public Integer sumIntegers() {
@@ -81,17 +85,18 @@ public class NumberList<T extends Number> implements List<T> {
         return true;
     }
 
-    public boolean remove() {
-        for (int i = 0; i < size; i++) {
-            array[i] = null;
-        }
-        size = 0;
-        return true;
-    }
-
     @Override
     public boolean remove(Object o) {
-        return false;
+        if (o == null) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(o)) {
+                System.arraycopy(array, i+1, array, i, size - i);
+                size--;
+            }
+        }
+        return true;
     }
 
     @Override
